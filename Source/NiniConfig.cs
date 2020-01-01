@@ -4,11 +4,11 @@ using Nini.Config;
 
 namespace Nini
 {
-    public class IniConfig
+    public class NiniConfig
     {
         private static IniConfigSource _config;
 
-        public IniConfig(string name)
+        public NiniConfig(string name)
         {
             if (!File.Exists(name))
             {
