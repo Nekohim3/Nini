@@ -1,4 +1,5 @@
 #region Copyright
+
 //
 // Nini Configuration Project.
 // Copyright (C) 2006 Brent R. Matzelle.  All rights reserved.
@@ -6,417 +7,346 @@
 // This software is published under the terms of the MIT X11 license, a copy of 
 // which has been included with this distribution in the LICENSE.txt file.
 // 
+
 #endregion
 
 using System;
 using System.Collections;
 using System.Globalization;
+
 using Nini.Util;
 
 namespace Nini.Config
 {
-	#region ConfigKeyEventArgs class
-	/// <include file='ConfigKeyEventArgs.xml' path='//Delegate[@name="ConfigKeyEventHandler"]/docs/*' />
-	public delegate void ConfigKeyEventHandler (object sender, ConfigKeyEventArgs e);
+    #region ConfigKeyEventArgs class
 
-	/// <include file='ConfigEventArgs.xml' path='//Class[@name="ConfigEventArgs"]/docs/*' />
-	public class ConfigKeyEventArgs : EventArgs
-	{
-		string keyName = null;
-		string keyValue = null;
+    public delegate void ConfigKeyEventHandler(object sender, ConfigKeyEventArgs e);
 
-		/// <include file='ConfigEventArgs.xml' path='//Constructor[@name="Constructor"]/docs/*' />
-		public ConfigKeyEventArgs (string keyName, string keyValue)
-		{
-			this.keyName = keyName;
-			this.keyValue = keyValue;
-		}
+    public class ConfigKeyEventArgs : EventArgs
+    {
+        public ConfigKeyEventArgs(string keyName, string keyValue)
+        {
+            this.KeyName  = keyName;
+            this.KeyValue = keyValue;
+        }
 
-		/// <include file='ConfigEventArgs.xml' path='//Property[@name="KeyName"]/docs/*' />
-		public string KeyName
-		{
-			get { return keyName; }
-		}
+        public string KeyName { get; } = null;
 
-		/// <include file='ConfigEventArgs.xml' path='//Property[@name="KeyValue"]/docs/*' />
-		public string KeyValue
-		{
-			get { return keyValue; }
-		}
-	}
-	#endregion
+        public string KeyValue { get; } = null;
+    }
 
-	/// <include file='IConfig.xml' path='//Interface[@name="IConfig"]/docs/*' />
-	public class ConfigBase : IConfig
-	{
-		#region Private variables
-		string configName = null;
-		IConfigSource configSource = null;
-		AliasText aliasText = null;
-		IFormatProvider format = NumberFormatInfo.CurrentInfo;
-		#endregion
+    #endregion
 
-		#region Protected variables
-		protected OrderedList keys = new OrderedList ();
-		#endregion
-		
-		#region Constructors
-		/// <include file='ConfigBase.xml' path='//Constructor[@name="ConfigBase"]/docs/*' />
-		public ConfigBase (string name, IConfigSource source)
-		{
-			configName = name;
-			configSource = source;
-			aliasText = new AliasText ();
-		}
-		#endregion
+    public class ConfigBase : IConfig
+    {
+        #region Private variables
 
-		#region Public properties
-		/// <include file='IConfig.xml' path='//Property[@name="Name"]/docs/*' />
-		public string Name
-		{
-			get { return configName; }
-			set {
-				if (configName != value) {
-					Rename (value);
-				}
-			}
-		}
-		
-		/// <include file='IConfig.xml' path='//Property[@name="ConfigSource"]/docs/*' />
-		public IConfigSource ConfigSource
-		{
-			get { return configSource; }
-		}
-		
-		/// <include file='IConfig.xml' path='//Property[@name="Alias"]/docs/*' />
-		public AliasText Alias
-		{
-			get { return aliasText; }
-		}
-		#endregion
+        private          string          _configName = null;
+        private readonly IFormatProvider _format     = NumberFormatInfo.CurrentInfo;
 
-		#region Public methods
-		/// <include file='IConfig.xml' path='//Method[@name="Contains"]/docs/*' />
-		public bool Contains (string key)
-		{
-			return (Get (key) != null);
-		}
+        #endregion
 
-		/// <include file='IConfig.xml' path='//Method[@name="Get"]/docs/*' />
-		public virtual string Get (string key)
-		{
-			string result = null;
-			
-			if (keys.Contains (key)) {
-				result = keys[key].ToString ();
-			}
+        #region Protected variables
 
-			return result;
-		}
-		
-		/// <include file='IConfig.xml' path='//Method[@name="GetDefault"]/docs/*' />
-		public string Get (string key, string defaultValue)
-		{
-			string result = Get (key);
-			
-			return (result == null) ? defaultValue : result;
-		}
+        #endregion
 
-		/// <include file='IConfig.xml' path='//Method[@name="GetExpanded"]/docs/*' />
-		public string GetExpanded (string key)
-		{
-			return this.ConfigSource.GetExpanded(this, key);
-		}
-		
-		/// <include file='IConfig.xml' path='//Method[@name="Get"]/docs/*' />
-		public string GetString (string key)
-		{
-			return Get (key);
-		}
-		
-		/// <include file='IConfig.xml' path='//Method[@name="GetDefault"]/docs/*' />
-		public string GetString (string key, string defaultValue)
-		{
-			return Get (key, defaultValue);
-		}
-		
-		/// <include file='IConfig.xml' path='//Method[@name="GetInt"]/docs/*' />
-		public int GetInt (string key)
-		{
-			string text = Get (key);
-			
-			if (text == null) {
-				throw new ArgumentException ("Value not found: " + key);
-			}
+        #region Constructors
 
-			return Convert.ToInt32 (text, format);
-		}
-		
-		/// <include file='IConfig.xml' path='//Method[@name="GetIntAlias"]/docs/*' />
-		public int GetInt (string key, bool fromAlias)
-		{
-			if (!fromAlias) {
-				return GetInt (key);
-			}
+        public ConfigBase(string name, IConfigSource source)
+        {
+            _configName   = name;
+            ConfigSource = source;
+        }
 
-			string result = Get (key);
-			
-			if (result == null) {
-				throw new ArgumentException ("Value not found: " + key);
-			}
+        #endregion
 
-			return GetIntAlias (key, result);
-		}
-		
-		/// <include file='IConfig.xml' path='//Method[@name="GetIntDefault"]/docs/*' />
-		public int GetInt (string key, int defaultValue)
-		{
-			string result = Get (key);
-			
-			return (result == null)
-					? defaultValue
-					: Convert.ToInt32 (result, format);
-		}
-		
-		/// <include file='IConfig.xml' path='//Method[@name="GetIntDefaultAlias"]/docs/*' />
-		public int GetInt (string key, int defaultValue, bool fromAlias)
-		{
-			if (!fromAlias) {
-				return GetInt (key, defaultValue);
-			}
+        #region Public properties
 
-			string result = Get (key);
-			
-			return (result == null) ? defaultValue : GetIntAlias (key, result);
-		}
-		
-		/// <include file='IConfig.xml' path='//Method[@name="GetLong"]/docs/*' />
-		public long GetLong (string key)
-		{
-			string text = Get (key);
-			
-			if (text == null) {
-				throw new ArgumentException ("Value not found: " + key);
-			}
-			
-			return Convert.ToInt64 (text, format);
-		}
-		
-		/// <include file='IConfig.xml' path='//Method[@name="GetLongDefault"]/docs/*' />
-		public long GetLong (string key, long defaultValue)
-		{
-			string result = Get (key);
-			
-			return (result == null)
-					? defaultValue
-					: Convert.ToInt64 (result, format);
-		}
-		
-		/// <include file='IConfig.xml' path='//Method[@name="GetBoolean"]/docs/*' />
-		public bool GetBoolean (string key)
-		{
-			string text = Get (key);
-			
-			if (text == null) {
-				throw new ArgumentException ("Value not found: " + key);
-			}
-			
-			return GetBooleanAlias (text);
-		}
-		
-		/// <include file='IConfig.xml' path='//Method[@name="GetBooleanDefault"]/docs/*' />
-		public bool GetBoolean (string key, bool defaultValue)
-		{
-			string text = Get (key);
-			
-			return (text == null) ? defaultValue : GetBooleanAlias (text);
-		}
-		
-		/// <include file='IConfig.xml' path='//Method[@name="GetFloat"]/docs/*' />
-		public float GetFloat (string key)
-		{
-			string text = Get (key);
-			
-			if (text == null) {
-				throw new ArgumentException ("Value not found: " + key);
-			}
-			
-			return Convert.ToSingle (text, format);
-		}
-		
-		/// <include file='IConfig.xml' path='//Method[@name="GetFloatDefault"]/docs/*' />
-		public float GetFloat (string key, float defaultValue)
-		{
-			string result = Get (key);
-			
-			return (result == null)
-					? defaultValue
-					: Convert.ToSingle (result, format);
-		}
+        public string Name
+        {
+            get => _configName;
+            set
+            {
+                if (_configName != value)
+                {
+                    Rename(value);
+                }
+            }
+        }
 
-		/// <include file='IConfig.xml' path='//Method[@name="GetDouble"]/docs/*' />
-		public double GetDouble (string key)
-		{
-			string text = Get (key);
-			
-			if (text == null) {
-				throw new ArgumentException ("Value not found: " + key);
-			}
-			
-			return Convert.ToDouble (text, format);
-		}
-		
-		/// <include file='IConfig.xml' path='//Method[@name="GetDoubleDefault"]/docs/*' />
-		public double GetDouble (string key, double defaultValue)
-		{
-			string result = Get (key);
-			
-			return (result == null)
-					? defaultValue
-					: Convert.ToDouble (result, format);
-		}
+        public IConfigSource ConfigSource { get; } = null;
 
-		/// <include file='IConfig.xml' path='//Method[@name="GetKeys"]/docs/*' />
-		public string[] GetKeys ()
-		{
-			string[] result = new string[keys.Keys.Count];
-			
-			keys.Keys.CopyTo (result, 0);
-			
-			return result;
-		}
+        public OrderedList Keys { get; set; } = new OrderedList();
 
-		/// <include file='IConfig.xml' path='//Method[@name="GetValues"]/docs/*' />
-		public string[] GetValues ()
-		{
-			string[] result = new string[keys.Values.Count];
-			
-			keys.Values.CopyTo (result, 0);
-			
-			return result;
-		}
-		
-		/// <include file='ConfigBase.xml' path='//Method[@name="Add"]/docs/*' />
-		public void Add (string key, string value)
-		{
-			keys.Add (key, value);
-		}
-		
-		/// <include file='IConfig.xml' path='//Method[@name="Set"]/docs/*' />
-		public virtual void Set (string key, object value)
-		{
-			if (value == null) {
-				throw new ArgumentNullException ("Value cannot be null");
-			}
+        #endregion
 
-			if (Get (key) == null) {
-				this.Add (key, value.ToString ());
-			} else {
-				keys[key] = value.ToString ();
-			}
+        #region Public methods
 
-			if (ConfigSource.AutoSave) {
-				ConfigSource.Save ();
-			}
+        public bool Contains(string key)
+        {
+            return (Get(key) != null);
+        }
 
-			OnKeySet (new ConfigKeyEventArgs (key, value.ToString ()));
-		}
-		
-		/// <include file='IConfig.xml' path='//Method[@name="Remove"]/docs/*' />
-		public virtual void Remove (string key)
-		{
-			if (key == null) {
-				throw new ArgumentNullException ("Key cannot be null");
-			}
-			
-			if (Get (key) != null) {
-				string keyValue = null;
-				if (KeySet != null) {
-					keyValue = Get (key);
-				}
-				keys.Remove (key);
+        public virtual string Get(string key)
+        {
+            string result = null;
 
-				OnKeyRemoved (new ConfigKeyEventArgs (key, keyValue));
-			}
-		}
-		#endregion
+            if (Keys.Contains(key))
+            {
+                result = Keys[key].ToString();
+            }
 
-		#region Public events
-		/// <include file='IConfig.xml' path='//Event[@name="KeySet"]/docs/*' />
-		public event ConfigKeyEventHandler KeySet;
+            return result;
+        }
 
-		/// <include file='IConfig.xml' path='//Event[@name="KeyRemoved"]/docs/*' />
-		public event ConfigKeyEventHandler KeyRemoved;
-		#endregion
+        public string Get(string key, string defaultValue)
+        {
+            string result = Get(key);
 
-		#region Protected methods
-		/// <include file='ConfigBase.xml' path='//Method[@name="OnKeySet"]/docs/*' />
-		protected void OnKeySet (ConfigKeyEventArgs e)
-		{
-			if (KeySet != null) {
-				KeySet (this, e);
-			}
-		}
+            return result ?? defaultValue;
+        }
 
-		/// <include file='ConfigBase.xml' path='//Method[@name="OnKeyRemoved"]/docs/*' />
-		protected void OnKeyRemoved (ConfigKeyEventArgs e)
-		{
-			if (KeyRemoved != null) {
-				KeyRemoved (this, e);
-			}
-		}
-		#endregion
+        public string GetExpanded(string key)
+        {
+            return this.ConfigSource.GetExpanded(this, key);
+        }
 
-		#region Private methods
-		/// <summary>
-		/// Renames the config to the new name. 
-		/// </summary>
-		private void Rename (string name)
-		{
-			this.ConfigSource.Configs.Remove (this);
-			configName = name;
-			this.ConfigSource.Configs.Add (this);
-		}
-		
-		/// <summary>
-		/// Returns the integer alias first from this IConfig then 
-		/// the parent if there is none.
-		/// </summary>
-		private int GetIntAlias (string key, string alias)
-		{
-			int result = -1;
-			
-			if (aliasText.ContainsInt (key, alias)) {
-				result = aliasText.GetInt (key, alias);
-			} else {
-				result = ConfigSource.Alias.GetInt (key, alias);
-			}			
-			
-			return result;
-		}
-		
-		/// <summary>
-		/// Returns the boolean alias first from this IConfig then 
-		/// the parent if there is none.
-		/// </summary>
-		private bool GetBooleanAlias (string key)
-		{
-			bool result = false;
-			
-			if (aliasText.ContainsBoolean (key)) {
-				result = aliasText.GetBoolean (key);
-			} else {
-				if (ConfigSource.Alias.ContainsBoolean (key)) {
-					result = ConfigSource.Alias.GetBoolean (key);
-				} else {
-					throw new ArgumentException 
-								("Alias value not found: " + key
-								+ ". Add it to the Alias property.");
-				}
-			}	
-			
-			return result;
-		}
-		#endregion
-	}
+        public string GetString(string key)
+        {
+            return Get(key);
+        }
+
+        public string GetString(string key, string defaultValue)
+        {
+            return Get(key, defaultValue);
+        }
+
+        public int GetInt(string key)
+        {
+            string text = Get(key);
+
+            if (text == null)
+            {
+                throw new ArgumentException("Value not found: " + key);
+            }
+
+            return Convert.ToInt32(text, _format);
+        }
+
+        public int GetInt(string key, int defaultValue)
+        {
+            string result = Get(key);
+
+            return (result == null)
+                       ? defaultValue
+                       : Convert.ToInt32(result, _format);
+        }
+
+        public uint GetUint(string key)
+        {
+            string text = Get(key);
+
+            if (text == null)
+            {
+                throw new ArgumentException("Value not found: " + key);
+            }
+
+            return Convert.ToUInt32(text, _format);
+        }
+
+        public uint GetUint(string key, uint defaultValue)
+        {
+            string result = Get(key);
+
+            return (result == null)
+                ? defaultValue
+                : Convert.ToUInt32(result, _format);
+        }
+
+        public long GetLong(string key)
+        {
+            string text = Get(key);
+
+            if (text == null)
+            {
+                throw new ArgumentException("Value not found: " + key);
+            }
+
+            return Convert.ToInt64(text, _format);
+        }
+
+        public long GetLong(string key, long defaultValue)
+        {
+            string result = Get(key);
+
+            return (result == null)
+                       ? defaultValue
+                       : Convert.ToInt64(result, _format);
+        }
+
+        public bool GetBoolean(string key)
+        {
+            string text = Get(key);
+
+            if (text == null)
+            {
+                throw new ArgumentException("Value not found: " + key);
+            }
+
+            return Convert.ToBoolean(text);
+        }
+
+        public bool GetBoolean(string key, bool defaultValue)
+        {
+            string text = Get(key);
+
+            return (text == null) ? defaultValue : Convert.ToBoolean(text);
+        }
+
+        public float GetFloat(string key)
+        {
+            string text = Get(key);
+
+            if (text == null)
+            {
+                throw new ArgumentException("Value not found: " + key);
+            }
+
+            return Convert.ToSingle(text, _format);
+        }
+
+        public float GetFloat(string key, float defaultValue)
+        {
+            string result = Get(key);
+
+            return (result == null)
+                       ? defaultValue
+                       : Convert.ToSingle(result, _format);
+        }
+
+        public double GetDouble(string key)
+        {
+            string text = Get(key);
+
+            if (text == null)
+            {
+                throw new ArgumentException("Value not found: " + key);
+            }
+
+            return Convert.ToDouble(text, _format);
+        }
+
+        public double GetDouble(string key, double defaultValue)
+        {
+            string result = Get(key);
+
+            return (result == null)
+                       ? defaultValue
+                       : Convert.ToDouble(result, _format);
+        }
+
+        public string[] GetKeys()
+        {
+            string[] result = new string[Keys.Keys.Count];
+
+            Keys.Keys.CopyTo(result, 0);
+
+            return result;
+        }
+
+        public string[] GetValues()
+        {
+            string[] result = new string[Keys.Values.Count];
+
+            Keys.Values.CopyTo(result, 0);
+
+            return result;
+        }
+
+        public void Add(string key, string value)
+        {
+            Keys.Add(key, value);
+        }
+
+        public virtual void Set(string key, object value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException("Value cannot be null");
+            }
+
+            if (Get(key) == null)
+            {
+                this.Add(key, value.ToString());
+            }
+            else
+            {
+                Keys[key] = value.ToString();
+            }
+
+            if (ConfigSource.AutoSave)
+            {
+                ConfigSource.Save();
+            }
+
+            OnKeySet(new ConfigKeyEventArgs(key, value.ToString()));
+        }
+
+        public virtual void Remove(string key)
+        {
+            if (key == null)
+            {
+                throw new ArgumentNullException("Key cannot be null");
+            }
+
+            if (Get(key) != null)
+            {
+                string keyValue = null;
+
+                if (KeySet != null)
+                {
+                    keyValue = Get(key);
+                }
+
+                Keys.Remove(key);
+
+                OnKeyRemoved(new ConfigKeyEventArgs(key, keyValue));
+            }
+        }
+
+        #endregion
+
+        #region Public events
+
+        public event ConfigKeyEventHandler KeySet;
+
+        public event ConfigKeyEventHandler KeyRemoved;
+
+        #endregion
+
+        #region Protected methods
+
+        protected void OnKeySet(ConfigKeyEventArgs e)
+        {
+            KeySet?.Invoke(this, e);
+        }
+
+        protected void OnKeyRemoved(ConfigKeyEventArgs e)
+        {
+            KeyRemoved?.Invoke(this, e);
+        }
+
+        #endregion
+
+        #region Private methods
+
+        private void Rename(string name)
+        {
+            this.ConfigSource.Configs.Remove(this);
+            _configName = name;
+            this.ConfigSource.Configs.Add(this);
+        }
+
+        #endregion
+    }
 }

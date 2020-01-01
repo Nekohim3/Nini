@@ -16,23 +16,23 @@ using Nini.Util;
 namespace Nini.Ini
 {
 	#region IniFileType enumeration
-	/// <include file='IniDocument.xml' path='//Enum[@name="IniFileType"]/docs/*' />
+	
 	public enum IniFileType
 	{
-		/// <include file='IniDocument.xml' path='//Enum[@name="IniFileType"]/Value[@name="Standard"]/docs/*' />
+		
 		Standard,
-		/// <include file='IniDocument.xml' path='//Enum[@name="IniFileType"]/Value[@name="PythonStyle"]/docs/*' />
+		
 		PythonStyle,
-		/// <include file='IniDocument.xml' path='//Enum[@name="IniFileType"]/Value[@name="SambaStyle"]/docs/*' />
+		
 		SambaStyle,
-		/// <include file='IniDocument.xml' path='//Enum[@name="IniFileType"]/Value[@name="MysqlStyle"]/docs/*' />
+		
 		MysqlStyle,
-		/// <include file='IniDocument.xml' path='//Enum[@name="IniFileType"]/Value[@name="WindowsStyle"]/docs/*' />
+		
 		WindowsStyle
 	}
 	#endregion
 
-	/// <include file='IniDocument.xml' path='//Class[@name="IniDocument"]/docs/*' />
+	
 	public class IniDocument
 	{
 		#region Private variables
@@ -42,7 +42,7 @@ namespace Nini.Ini
 		#endregion
 		
 		#region Public properties
-		/// <include file='IniDocument.xml' path='//Property[@name="FileType"]/docs/*' />
+		
 		public IniFileType FileType
 		{
 			get { return fileType; }
@@ -51,93 +51,93 @@ namespace Nini.Ini
 		#endregion
 
 		#region Constructors
-		/// <include file='IniDocument.xml' path='//Constructor[@name="ConstructorPath"]/docs/*' />
+		
 		public IniDocument (string filePath)
 		{
 			fileType = IniFileType.Standard;
 			Load (filePath);
 		}
 
-		/// <include file='IniDocument.xml' path='//Constructor[@name="ConstructorPathType"]/docs/*' />
+		
 		public IniDocument (string filePath, IniFileType type)
 		{
 			fileType = type;
 			Load (filePath);
 		}
 
-		/// <include file='IniDocument.xml' path='//Constructor[@name="ConstructorTextReader"]/docs/*' />
+		
 		public IniDocument (TextReader reader)
 		{
 			fileType = IniFileType.Standard;
 			Load (reader);
 		}
 
-		/// <include file='IniDocument.xml' path='//Constructor[@name="ConstructorTextReaderType"]/docs/*' />
+		
 		public IniDocument (TextReader reader, IniFileType type)
 		{
 			fileType = type;
 			Load (reader);
 		}
 		
-		/// <include file='IniDocument.xml' path='//Constructor[@name="ConstructorStream"]/docs/*' />
+		
 		public IniDocument (Stream stream)
 		{
 			fileType = IniFileType.Standard;
 			Load (stream);
 		}
 
-		/// <include file='IniDocument.xml' path='//Constructor[@name="ConstructorStreamType"]/docs/*' />
+		
 		public IniDocument (Stream stream, IniFileType type)
 		{
 			fileType = type;
 			Load (stream);
 		}
 
-		/// <include file='IniDocument.xml' path='//Constructor[@name="ConstructorIniReader"]/docs/*' />
+		
 		public IniDocument (IniReader reader)
 		{
 			fileType = IniFileType.Standard;
 			Load (reader);
 		}
 
-		/// <include file='IniDocument.xml' path='//Constructor[@name="Constructor"]/docs/*' />
+		
 		public IniDocument ()
 		{
 		}
 		#endregion
 		
 		#region Public methods
-		/// <include file='IniDocument.xml' path='//Method[@name="LoadPath"]/docs/*' />
+		
 		public void Load (string filePath)
 		{
 			Load (new StreamReader (filePath));
 		}
 
-		/// <include file='IniDocument.xml' path='//Method[@name="LoadTextReader"]/docs/*' />
+		
 		public void Load (TextReader reader)
 		{
 			Load (GetIniReader (reader, fileType));
 		}
 
-		/// <include file='IniDocument.xml' path='//Method[@name="LoadStream"]/docs/*' />
+		
 		public void Load (Stream stream)
 		{
 			Load (new StreamReader (stream));
 		}
 
-		/// <include file='IniDocument.xml' path='//Method[@name="LoadIniReader"]/docs/*' />
+		
 		public void Load (IniReader reader)
 		{
 			LoadReader (reader);
 		}
 
-		/// <include file='IniSection.xml' path='//Property[@name="Comment"]/docs/*' />
+		
 		public IniSectionCollection Sections
 		{
 			get { return sections; }
 		}
 
-		/// <include file='IniDocument.xml' path='//Method[@name="SaveTextWriter"]/docs/*' />
+		
 		public void Save (TextWriter textWriter)
 		{
 			IniWriter writer = GetIniWriter (textWriter, fileType);
@@ -169,7 +169,7 @@ namespace Nini.Ini
 			}
 		}
 		
-		/// <include file='IniDocument.xml' path='//Method[@name="SavePath"]/docs/*' />
+		
 		public void Save (string filePath)
 		{
 			StreamWriter writer = new StreamWriter (filePath);
@@ -178,7 +178,7 @@ namespace Nini.Ini
 			writer.Close ();
 		}
 
-		/// <include file='IniDocument.xml' path='//Method[@name="SaveStream"]/docs/*' />
+		
 		public void Save (Stream stream)
 		{
 			Save (new StreamWriter (stream));

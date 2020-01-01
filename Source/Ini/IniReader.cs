@@ -16,36 +16,36 @@ using System.Collections;
 namespace Nini.Ini
 {
 	#region IniReadState enumeration
-	/// <include file='IniReader.xml' path='//Enum[@name="IniReadState"]/docs/*' />
+	
 	public enum IniReadState : int
 	{
-		/// <include file='IniReader.xml' path='//Enum[@name="IniReadState"]/Value[@name="Closed"]/docs/*' />
+		
 		Closed,
-		/// <include file='IniReader.xml' path='//Enum[@name="IniReadState"]/Value[@name="EndOfFile"]/docs/*' />
+		
 		EndOfFile,
-		/// <include file='IniReader.xml' path='//Enum[@name="IniReadState"]/Value[@name="Error"]/docs/*' />
+		
 		Error,
-		/// <include file='IniReader.xml' path='//Enum[@name="IniReadState"]/Value[@name="Initial"]/docs/*' />
+		
 		Initial,
-		/// <include file='IniReader.xml' path='//Enum[@name="IniReadState"]/Value[@name="Interactive"]/docs/*' />
+		
 		Interactive
 	};
 	#endregion
 
 	#region IniType enumeration
-	/// <include file='IniReader.xml' path='//Enum[@name="IniType"]/docs/*' />
+	
 	public enum IniType : int
 	{
-		/// <include file='IniReader.xml' path='//Enum[@name="IniType"]/Value[@name="Section"]/docs/*' />
+		
 		Section,
-		/// <include file='IniReader.xml' path='//Enum[@name="IniType"]/Value[@name="Key"]/docs/*' />
+		
 		Key,
-		/// <include file='IniReader.xml' path='//Enum[@name="IniType"]/Value[@name="Empty"]/docs/*' />
+		
 		Empty
 	}
 	#endregion
 
-	/// <include file='IniReader.xml' path='//Class[@name="IniReader"]/docs/*' />
+	
 	public class IniReader : IDisposable
 	{
 		#region Private variables
@@ -69,77 +69,77 @@ namespace Nini.Ini
 		#endregion
 
 		#region Public properties
-		/// <include file='IniReader.xml' path='//Property[@name="Name"]/docs/*' />
+		
 		public string Name
 		{
 			get { return this.name.ToString (); }
 		}
 		
-		/// <include file='IniReader.xml' path='//Property[@name="Value"]/docs/*' />
+		
 		public string Value
 		{
 			get { return this.value.ToString (); }
 		}
 		
-		/// <include file='IniReader.xml' path='//Property[@name="Type"]/docs/*' />
+		
 		public IniType Type
 		{
 			get { return iniType; }
 		}
 		
-		/// <include file='IniReader.xml' path='//Property[@name="Comment"]/docs/*' />
+		
 		public string Comment
 		{
 			get { return (hasComment) ? this.comment.ToString () : null; }
 		}
 		
-		/// <include file='IniReader.xml' path='//Property[@name="LineNumber"]/docs/*' />
+		
 		public int LineNumber
 		{
 			get { return lineNumber; }
 		}
 		
-		/// <include file='IniReader.xml' path='//Property[@name="LinePosition"]/docs/*' />
+		
 		public int LinePosition
 		{
 			get { return column; }
 		}
 		
-		/// <include file='IniReader.xml' path='//Property[@name="IgnoreComments"]/docs/*' />
+		
 		public bool IgnoreComments
 		{
 			get { return ignoreComments; }
 			set { ignoreComments = value; }
 		}
 		
-		/// <include file='IniReader.xml' path='//Property[@name="ReadState"]/docs/*' />
+		
 		public IniReadState ReadState
 		{
 			get { return readState; }
 		}
 		
-		/// <include file='IniReader.xml' path='//Property[@name="LineContinuation"]/docs/*' />
+		
 		public bool LineContinuation
 		{
 			get { return lineContinuation; }
 			set { lineContinuation = value; }
 		}
 		
-		/// <include file='IniReader.xml' path='//Property[@name="AcceptCommentAfterKey"]/docs/*' />
+		
 		public bool AcceptCommentAfterKey
 		{
 			get { return acceptCommentAfterKey; }
 			set { acceptCommentAfterKey = value; }
 		}
 
-		/// <include file='IniReader.xml' path='//Property[@name="AcceptNoAssignmentOperator"]/docs/*' />
+		
 		public bool AcceptNoAssignmentOperator
 		{
 			get { return acceptNoAssignmentOperator; }
 			set { acceptNoAssignmentOperator = value; }
 		}
 
-		/// <include file='IniReader.xml' path='//Property[@name="ConsumeAllKeyText"]/docs/*' />
+		
 		public bool ConsumeAllKeyText
 		{
 			get { return consumeAllKeyText; }
@@ -148,19 +148,19 @@ namespace Nini.Ini
 		#endregion
 		
 		#region Constructors
-		/// <include file='IniReader.xml' path='//Constructor[@name="ConstructorPath"]/docs/*' />
+		
 		public IniReader (string filePath)
 		{
 			textReader = new StreamReader (filePath);
 		}
 		
-		/// <include file='IniReader.xml' path='//Constructor[@name="ConstructorTextReader"]/docs/*' />
+		
 		public IniReader (TextReader reader)
 		{
 			textReader = reader;
 		}
 		
-		/// <include file='IniReader.xml' path='//Constructor[@name="ConstructorStream"]/docs/*' />
+		
 		public IniReader (Stream stream)
 			: this (new StreamReader (stream))
 		{
@@ -168,7 +168,7 @@ namespace Nini.Ini
 		#endregion
 		
 		#region Public methods
-		/// <include file='IniReader.xml' path='//Method[@name="Read"]/docs/*' />
+		
 		public bool Read ()
 		{
 			bool result = false;
@@ -182,7 +182,7 @@ namespace Nini.Ini
 			return result;
 		}
 		
-		/// <include file='IniReader.xml' path='//Method[@name="MoveToNextSection"]/docs/*' />
+		
 		public bool MoveToNextSection ()
 		{
 			bool result = false;
@@ -199,7 +199,7 @@ namespace Nini.Ini
 			return result;
 		}
 		
-		/// <include file='IniReader.xml' path='//Method[@name="MoveToNextKey"]/docs/*' />
+		
 		public bool MoveToNextKey ()
 		{
 			bool result = false;
@@ -220,7 +220,7 @@ namespace Nini.Ini
 			return result;
 		}
 		
-		/// <include file='IniReader.xml' path='//Method[@name="Close"]/docs/*' />
+		
 		public void Close ()
 		{
 			Reset ();
@@ -231,13 +231,13 @@ namespace Nini.Ini
 			}
 		}
 
-		/// <include file='IniReader.xml' path='//Method[@name="Dispose"]/docs/*' />
+		
 		public void Dispose ()
 		{
 			Dispose (true);
 		}
 		
-		/// <include file='IniReader.xml' path='//Method[@name="GetCommentDelimiters"]/docs/*' />
+		
 		public char[] GetCommentDelimiters ()
 		{
 			char[] result = new char[commentDelimiters.Length];
@@ -246,7 +246,7 @@ namespace Nini.Ini
 			return result;
 		}
 		
-		/// <include file='IniReader.xml' path='//Method[@name="SetCommentDelimiters"]/docs/*' />
+		
 		public void SetCommentDelimiters (char[] delimiters)
 		{
 			if (delimiters.Length < 1) {
@@ -256,7 +256,7 @@ namespace Nini.Ini
 			commentDelimiters = delimiters;
 		}
 		
-		/// <include file='IniReader.xml' path='//Method[@name="GetAssignDelimiters"]/docs/*' />
+		
 		public char[] GetAssignDelimiters ()
 		{
 			char[] result = new char[assignDelimiters.Length];
@@ -265,7 +265,7 @@ namespace Nini.Ini
 			return result;
 		}
 		
-		/// <include file='IniReader.xml' path='//Method[@name="SetAssignDelimiters"]/docs/*' />
+		
 		public void SetAssignDelimiters (char[] delimiters)
 		{
 			if (delimiters.Length < 1) {
@@ -277,7 +277,7 @@ namespace Nini.Ini
 		#endregion
 		
 		#region Protected methods
-		/// <include file='IniReader.xml' path='//Method[@name="DisposeBoolean"]/docs/*' />
+		
 		protected virtual void Dispose (bool disposing)
 		{
 			if (!disposed) {

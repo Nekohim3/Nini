@@ -18,7 +18,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace Nini.Ini
 {
-	/// <include file='IniException.xml' path='//Class[@name="IniException"]/docs/*' />
+	
 #if (NET_COMPACT_1_0)
 #else
 	[Serializable]
@@ -31,7 +31,7 @@ namespace Nini.Ini
 		#endregion
 
 		#region Public properties
-		/// <include file='IniException.xml' path='//Property[@name="LinePosition"]/docs/*' />
+		
 		public int LinePosition
 		{
 			get	{
@@ -39,7 +39,7 @@ namespace Nini.Ini
 			}
 		}
 		
-		/// <include file='IniException.xml' path='//Property[@name="LineNumber"]/docs/*' />
+		
 		public int LineNumber
 		{
 			get {
@@ -47,7 +47,7 @@ namespace Nini.Ini
 			}
 		}
 		
-		/// <include file='IniException.xml' path='//Property[@name="Message"]/docs/*' />
+		
 		public override string Message
 		{
 			get {
@@ -62,27 +62,27 @@ namespace Nini.Ini
 		#endregion
 
 		#region Constructors
-		/// <include file='IniException.xml' path='//Constructor[@name="Constructor"]/docs/*' />
+		
 		public IniException ()
 			: base ()
 		{
 			this.message  = "An error has occurred";
 		}
 		
-		/// <include file='IniException.xml' path='//Constructor[@name="ConstructorException"]/docs/*' />
+		
 		public IniException (string message, Exception exception)
 			: base (message, exception)
 		{
 		}
 
-		/// <include file='IniException.xml' path='//Constructor[@name="ConstructorMessage"]/docs/*' />
+		
 		public IniException (string message)
 			: base (message)
 		{
 			this.message  = message;
 		}
 		
-		/// <include file='IniException.xml' path='//Constructor[@name="ConstructorTextReader"]/docs/*' />
+		
 		internal IniException (IniReader reader, string message)
 			: this (message)
 		{
@@ -92,7 +92,7 @@ namespace Nini.Ini
 
 #if (NET_COMPACT_1_0)
 #else
-		/// <include file='IniException.xml' path='//Constructor[@name="ConstructorSerialize"]/docs/*' />
+		
 		protected IniException (SerializationInfo info, StreamingContext context)
 			: base (info, context)
 		{
@@ -103,7 +103,7 @@ namespace Nini.Ini
 		#region Public methods
 #if (NET_COMPACT_1_0)
 #else
-		/// <include file='IniException.xml' path='//Method[@name="GetObjectData"]/docs/*' />
+		
 		[SecurityPermissionAttribute(SecurityAction.Demand,SerializationFormatter=true)]
 		public override void GetObjectData (SerializationInfo info, 
 											StreamingContext context)

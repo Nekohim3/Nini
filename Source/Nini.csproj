@@ -81,12 +81,6 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Config\AliasText.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Config\ArgvConfigSource.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="Config\ConfigBase.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -94,9 +88,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Config\ConfigSourceBase.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Config\DotNetConfigSource.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Config\IConfig.cs">
@@ -109,12 +100,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Config\IniConfigSource.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Config\RegistryConfigSource.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Config\XmlConfigSource.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Ini\IniDocument.cs">

@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace Nini.Util
 {
-	/// <include file='OrderedListEnumerator.xml' path='//Class[@name="OrderedListEnumerator"]/docs/*' />
+	
 	public class OrderedListEnumerator : IDictionaryEnumerator
 	{
 		#region Private variables
@@ -22,7 +22,7 @@ namespace Nini.Util
 		#endregion
 
 		#region Public properties
-		/// <include file='OrderedListEnumerator.xml' path='//Property[@name="Current"]/docs/*' />
+		
 		object IEnumerator.Current 
 		{
 			get 
@@ -34,7 +34,7 @@ namespace Nini.Util
 			}
 		}
 		
-		/// <include file='OrderedListEnumerator.xml' path='//Property[@name="CurrentStrong"]/docs/*' />
+		
 		public DictionaryEntry Current 
 		{
 			get 
@@ -46,19 +46,19 @@ namespace Nini.Util
 			}
 		}
 
-		/// <include file='OrderedListEnumerator.xml' path='//Property[@name="Entry"]/docs/*' />
+		
 		public DictionaryEntry Entry 
 		{
 			get { return (DictionaryEntry) Current; }
 		}
 
-		/// <include file='OrderedListEnumerator.xml' path='//Property[@name="Key"]/docs/*' />
+		
 		public object Key 
 		{
 			get { return Entry.Key; }
 		}
 
-		/// <include file='OrderedListEnumerator.xml' path='//Property[@name="Value"]/docs/*' />
+		
 		public object Value 
 		{
 			get { return Entry.Value; }
@@ -66,7 +66,7 @@ namespace Nini.Util
 		#endregion
 
 		#region Public methods
-		/// <include file='OrderedListEnumerator.xml' path='//Method[@name="MoveNext"]/docs/*' />
+		
 		public bool MoveNext ()
 		{
 			index++;
@@ -76,7 +76,7 @@ namespace Nini.Util
 			return true;
 		}
 
-		/// <include file='OrderedListEnumerator.xml' path='//Method[@name="Reset"]/docs/*' />
+		
 		public void Reset ()
 		{
 			index = -1;

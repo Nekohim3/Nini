@@ -17,7 +17,7 @@ using System.Text.RegularExpressions;
 
 namespace Nini.Util
 {
-	/// <include file='ArgvParser.xml' path='//Class[@name="ArgvParser"]/docs/*' />
+	
 	public class ArgvParser
 	{
 		#region Private variables
@@ -25,7 +25,7 @@ namespace Nini.Util
 		#endregion
 		
 		#region Constructors
-		/// <include file='ArgvParser.xml' path='//Constructor[@name="Constructor"]/docs/*' />
+		
 		public ArgvParser(string args)
 		{
 
@@ -45,7 +45,7 @@ namespace Nini.Util
 			}
 		}
 		
-		/// <include file='ArgvParser.xml' path='//Constructor[@name="ConstructorArray"]/docs/*' />
+		
 		public ArgvParser (string[] args)
 		{
 			Extract (args);
@@ -53,7 +53,7 @@ namespace Nini.Util
 		#endregion
 		
 		#region Public properties
-		/// <include file='ArgvParser.xml' path='//Property[@name="this"]/docs/*' />
+		
 		public string this [string param]
 		{
 			get {

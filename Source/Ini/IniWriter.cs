@@ -15,21 +15,21 @@ using System.Text;
 namespace Nini.Ini
 {
 	#region IniWriteState enumeration
-	/// <include file='IniWriter.xml' path='//Enum[@name="IniWriteState"]/docs/*' />
+	
 	public enum IniWriteState : int
 	{
-		/// <include file='IniWriter.xml' path='//Enum[@name="IniWriteState"]/Value[@name="Start"]/docs/*' />
+		
 		Start,
-		/// <include file='IniWriter.xml' path='//Enum[@name="IniWriteState"]/Value[@name="BeforeFirstSection"]/docs/*' />
+		
 		BeforeFirstSection,
-		/// <include file='IniWriter.xml' path='//Enum[@name="IniWriteState"]/Value[@name="Section"]/docs/*' />
+		
 		Section,
-		/// <include file='IniWriter.xml' path='//Enum[@name="IniWriteState"]/Value[@name="Closed"]/docs/*' />
+		
 		Closed
 	};
 	#endregion
 
-	/// <include file='IniWriter.xml' path='//Class[@name="IniWriter"]/docs/*' />
+	
 	public class IniWriter : IDisposable
 	{
 		#region Private variables
@@ -46,7 +46,7 @@ namespace Nini.Ini
 		#endregion
 		
 		#region Public properties
-		/// <include file='IniWriter.xml' path='//Property[@name="Indentation"]/docs/*' />
+		
 		public int Indentation
 		{
 			get { return indentation; }
@@ -62,34 +62,34 @@ namespace Nini.Ini
 			}
 		}
 
-		/// <include file='IniWriter.xml' path='//Property[@name="UseValueQuotes"]/docs/*' />
+		
 		public bool UseValueQuotes
 		{
 			get { return useValueQuotes; }
 			set { useValueQuotes = value; }
 		}
 
-		/// <include file='IniWriter.xml' path='//Property[@name="WriteState"]/docs/*' />
+		
 		public IniWriteState WriteState
 		{
 			get { return writeState; }
 		}
 
-		/// <include file='IniWriter.xml' path='//Property[@name="CommentDelimiter"]/docs/*' />
+		
 		public char CommentDelimiter
 		{
 			get { return commentDelimiter; }
 			set { commentDelimiter = value; }
 		}
 		
-		/// <include file='IniWriter.xml' path='//Property[@name="AssignDelimiter"]/docs/*' />
+		
 		public char AssignDelimiter
 		{
 			get { return assignDelimiter; }
 			set { assignDelimiter = value; }
 		}
 		
-		/// <include file='IniWriter.xml' path='//Property[@name="BaseStream"]/docs/*' />
+		
 		public Stream BaseStream
 		{
 			get { return baseStream; }
@@ -97,13 +97,13 @@ namespace Nini.Ini
 		#endregion
 		
 		#region Constructors
-		/// <include file='IniWriter.xml' path='//Constructor[@name="ConstructorPath"]/docs/*' />
+		
 		public IniWriter(string filePath)
 			: this (new FileStream (filePath, FileMode.Create, FileAccess.Write, FileShare.None))
 		{
 		}
 		
-		/// <include file='IniWriter.xml' path='//Constructor[@name="ConstructorTextWriter"]/docs/*' />
+		
 		public IniWriter (TextWriter writer)
 		{
 			textWriter = writer;
@@ -113,7 +113,7 @@ namespace Nini.Ini
 			}
 		}
 		
-		/// <include file='IniWriter.xml' path='//Constructor[@name="ConstructorStream"]/docs/*' />
+		
 		public IniWriter (Stream stream)
 			: this (new StreamWriter (stream))
 		{
@@ -121,7 +121,7 @@ namespace Nini.Ini
 		#endregion
 		
 		#region Public methods
-		/// <include file='IniWriter.xml' path='//Method[@name="Close"]/docs/*' />
+		
 		public void Close ()
 		{
 		    textWriter.Flush ();
@@ -129,19 +129,19 @@ namespace Nini.Ini
 			writeState = IniWriteState.Closed;
 		}
 		
-		/// <include file='IniWriter.xml' path='//Method[@name="Flush"]/docs/*' />
+		
 		public void Flush ()
 		{
 			textWriter.Flush ();
 		}
 		
-		/// <include file='IniWriter.xml' path='//Method[@name="ToString"]/docs/*' />
+		
 		public override string ToString ()
 		{
 			return textWriter.ToString ();
 		}
 		
-		/// <include file='IniWriter.xml' path='//Method[@name="WriteSection"]/docs/*' />
+		
 		public void WriteSection (string section)
 		{
 			ValidateState ();
@@ -149,7 +149,7 @@ namespace Nini.Ini
 			WriteLine ("[" + section + "]");
 		}
 		
-		/// <include file='IniWriter.xml' path='//Method[@name="WriteSectionComment"]/docs/*' />
+		
 		public void WriteSection (string section, string comment)
 		{
 			ValidateState ();
@@ -157,21 +157,21 @@ namespace Nini.Ini
 			WriteLine ("[" + section + "]" + Comment(comment));
 		}
 		
-		/// <include file='IniWriter.xml' path='//Method[@name="WriteKey"]/docs/*' />
+		
 		public void WriteKey (string key, string value)
 		{
 			ValidateStateKey ();
 			WriteLine (key + " " + assignDelimiter + " " + GetKeyValue (value));
 		}
 		
-		/// <include file='IniWriter.xml' path='//Method[@name="WriteKeyComment"]/docs/*' />
+		
 		public void WriteKey (string key, string value, string comment)
 		{
 			ValidateStateKey ();
 			WriteLine (key + " " + assignDelimiter + " " + GetKeyValue (value) + Comment (comment));
 		}
 	
-		/// <include file='IniWriter.xml' path='//Method[@name="WriteEmpty"]/docs/*' />
+		
 		public void WriteEmpty ()
 		{
 			ValidateState ();
@@ -181,7 +181,7 @@ namespace Nini.Ini
 			WriteLine ("");
 		}
 
-		/// <include file='IniWriter.xml' path='//Method[@name="WriteEmptyComment"]/docs/*' />
+		
 		public void WriteEmpty (string comment)
 		{
 			ValidateState ();
@@ -195,7 +195,7 @@ namespace Nini.Ini
 			}
 		}
 		
-		/// <include file='IniWriter.xml' path='//Method[@name="Dispose"]/docs/*' />
+		
 		public void Dispose ()
 		{
 			Dispose (true);
@@ -203,7 +203,7 @@ namespace Nini.Ini
 		#endregion
 		
 		#region Protected methods
-		/// <include file='IniWriter.xml' path='//Method[@name="DisposeBoolean"]/docs/*' />
+		
 		protected virtual void Dispose (bool disposing)
 		{
 			if (!disposed) 

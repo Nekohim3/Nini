@@ -14,7 +14,7 @@ using Nini.Util;
 
 namespace Nini.Ini
 {
-	/// <include file='IniSection.xml' path='//Class[@name="IniSection"]/docs/*' />
+	
 	public class IniSection
 	{
 		#region Private variables
@@ -25,14 +25,14 @@ namespace Nini.Ini
 		#endregion
 
 		#region Constructors
-		/// <include file='IniSection.xml' path='//Constructor[@name="ConstructorComment"]/docs/*' />
+		
 		public IniSection (string name, string comment)
 		{
 			this.name = name;
 			this.comment = comment;
 		}
 		
-		/// <include file='IniSection.xml' path='//Constructor[@name="Constructor"]/docs/*' />
+		
 		public IniSection (string name)
 			: this (name, null)
 		{
@@ -40,19 +40,19 @@ namespace Nini.Ini
 		#endregion
 		
 		#region Public properties
-		/// <include file='IniSection.xml' path='//Property[@name="Name"]/docs/*' />
+		
 		public string Name
 		{
 			get { return name; }
 		}
 		
-		/// <include file='IniSection.xml' path='//Property[@name="Comment"]/docs/*' />
+		
 		public string Comment
 		{
 			get { return comment; }
 		}
 		
-		/// <include file='IniSection.xml' path='//Property[@name="ItemCount"]/docs/*' />
+		
 		public int ItemCount
 		{
 			get { return configList.Count; }
@@ -61,7 +61,7 @@ namespace Nini.Ini
 
 		#region Public methods
 		
-		/// <include file='IniSection.xml' path='//Method[@name="GetValue"]/docs/*' />
+		
 		public string GetValue (string key)
 		{
 			string result = null;
@@ -74,13 +74,13 @@ namespace Nini.Ini
 			return result;
 		}
 		
-		/// <include file='IniSection.xml' path='//Method[@name="GetItem"]/docs/*' />
+		
 		public IniItem GetItem (int index)
 		{
 			return (IniItem)configList[index];
 		}
 		
-		/// <include file='IniSection.xml' path='//Method[@name="GetKeys"]/docs/*' />
+		
 		public string[] GetKeys ()
 		{
 			ArrayList list = new ArrayList ();
@@ -99,13 +99,13 @@ namespace Nini.Ini
 			return result;
 		}
 		
-		/// <include file='IniSection.xml' path='//Method[@name="Contains"]/docs/*' />
+		
 		public bool Contains (string key)
 		{
 			return (configList[key] != null); 
 		}
 		
-		/// <include file='IniSection.xml' path='//Method[@name="SetKeyComment"]/docs/*' />
+		
 		public void Set (string key, string value, string comment)
 		{
 			IniItem item = null;
@@ -120,13 +120,13 @@ namespace Nini.Ini
 			}
 		}
 
-		/// <include file='IniSection.xml' path='//Method[@name="SetKey"]/docs/*' />
+		
 		public void Set (string key, string value)
 		{
 			Set (key, value, null);
 		}
 		
-		/// <include file='IniSection.xml' path='//Method[@name="SetComment"]/docs/*' />
+		
 		public void Set (string comment)
 		{
 			string name = "#comment" + commentCount;
@@ -137,13 +137,13 @@ namespace Nini.Ini
 			commentCount++;
 		}
 		
-		/// <include file='IniSection.xml' path='//Method[@name="SetNoComment"]/docs/*' />
+		
 		public void Set ()
 		{
 			Set (null);
 		}
 		
-		/// <include file='IniSection.xml' path='//Method[@name="Remove"]/docs/*' />
+		
 		public void Remove (string key)
 		{
 			if (Contains (key)) {
