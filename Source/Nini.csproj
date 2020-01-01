@@ -123,6 +123,7 @@
     <Compile Include="Ini\IniWriter.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="NiniConfig.cs" />
     <Compile Include="Util\ArgvParser.cs">
       <SubType>Code</SubType>
     </Compile>

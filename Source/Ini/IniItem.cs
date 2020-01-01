@@ -42,7 +42,7 @@ namespace Nini.Ini
 			#endregion
 			
 			
-			internal protected IniItem (string name, string value, IniType type, string comment)
+			protected internal IniItem (string name, string value, IniType type, string comment)
 			{
 				iniName = name;
 				iniValue = value;
