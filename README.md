@@ -10,10 +10,10 @@ ABOUT
 Nini is an uncommonly powerful .NET configuration library designed to help 
 build highly configurable applications quickly.
 
-CHANGELOG:
--Code clean
--remove XLConfig
--remove Alias
+CHANGELOG:  
+-Code clean  
+-remove XLConfig  
+-remove Alias  
 -add NiniConfig class - adapter, for easy library usage.
 
 -------------------------------------
